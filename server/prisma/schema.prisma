@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+}
+
+model User {
+  id                 String    @id @default(uuid())
+  username           String
+  email              String    @unique
+  gender             Gender 
+  hashedPassword     String
+  interests          String?
+  interestsEmbedding Float[]   // We can store arrays of floats for the Gemini embedding
+  lastRoomId         String?   // Stores the ID of the last active room in-memory. Null if none.
+  
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
